@@ -36,10 +36,11 @@ namespace UI
                         case 5: UpdateBook(); break;
                         case 6: AddCopiesOfBook(); break;
                         case 7: DeleteCopiesOfBook(); break;
-                        case 8: LendBook(); break;
-                        case 9: ReturnBook(); break;
-                        case 10: BooksRecommendation(); break;
-                        case 11: Stop(); break;
+                        case 8: SearchLoans(); break;
+                        case 9: LendBook(); break;
+                        case 10: ReturnBook(); break;
+                        case 11: BooksRecommendation(); break;
+                        case 12: Stop(); break;
                         default: Console.WriteLine("Invalid Option"); break;
 
                     }
@@ -231,6 +232,92 @@ namespace UI
             catch (Exception ex) { Console.WriteLine(ex.Message); }
         }
 
+        public void SearchLoans()
+        {
+            while (true)
+            {
+                Console.WriteLine("\nShow Loans:");
+                Console.WriteLine("1. Get Active Loans By Book Title");
+                Console.WriteLine("2. Get Active Loans By Client Name");
+                try
+                {
+                    int command = int.Parse(Console.ReadLine());
+                    switch (command)
+                    {
+                        case 1:
+                            {
+                                Console.WriteLine("\nEnter Book Title : ");
+                                var title = Console.ReadLine();
+                                Book book = new Book(title);
+                                var lendings = _service.GetActiveLendingsByBook(book);
+                                Console.WriteLine("\nLoans : ");
+                                lendings.ToList().ForEach(lending => Console.WriteLine(lending.ToString()));
+                                return;
+                            }
+                        case 2:
+                            {
+                                Console.WriteLine("\nEnter Client Name : ");
+                                var clientName = Console.ReadLine();
+                                var lendings = _service.GetActiveLendingsByClient(clientName);
+                                Console.WriteLine("\nLoans : ");
+                                lendings.ToList().ForEach(lending => Console.WriteLine(lending.ToString()));
+                                return;
+                            }
+                        
+                        default: Console.WriteLine("Invalid input"); break;
+                    }
+                }
+                catch (Exception ex) { Console.WriteLine(ex.Message); }
+            }
+        }
+
+        private void LendBook()
+        {
+            try
+            {
+                Console.WriteLine("\nEnter Book Title : ");
+                var title = Console.ReadLine();
+                Console.WriteLine("\nEnter Client's Name : ");
+                var clientName = Console.ReadLine();
+                if (!string.IsNullOrEmpty(title) && !string.IsNullOrEmpty(clientName))
+                {
+                    Book book = new Book(title);
+                    Lending lending = new Lending(book, clientName, DateOnly.FromDateTime(DateTime.Now), DateOnly.FromDateTime(DateTime.Now).AddDays(14), LendingStatus.Active);
+                    _service.LendBook(lending);
+                    Console.WriteLine("\nBook lent successfully !");
+                }
+                else
+                {
+                    Console.WriteLine("Invalid input");
+                }
+            }
+            catch (Exception ex) { Console.WriteLine(ex.Message); }
+        }
+
+        private void ReturnBook()
+        {
+            try
+            {
+                Console.WriteLine("\nEnter Book Title : ");
+                var title = Console.ReadLine();
+                Console.WriteLine("\nEnter Client's Name : ");
+                var clientName = Console.ReadLine();
+                if (!string.IsNullOrEmpty(title) && !string.IsNullOrEmpty(clientName))
+                {
+                    Book book = new Book(title);
+                    Lending lending = new Lending(book, clientName);
+                    _service.ReturnBook(lending);
+                    Console.WriteLine("\nBook returned successfully !");
+                }
+                else
+                {
+                    Console.WriteLine("Invalid input");
+                }
+
+            }
+            catch (Exception ex) { Console.WriteLine(ex.Message); }
+        }
+
         private void BooksRecommendation()
         {
             while (true)
@@ -286,53 +373,6 @@ namespace UI
             }
         }
 
-        private void LendBook()
-        {
-            try
-            {
-                Console.WriteLine("\nEnter Book Title : ");
-                var title = Console.ReadLine();
-                Console.WriteLine("\nEnter Client's Name : ");
-                var clientName = Console.ReadLine();
-                if (!string.IsNullOrEmpty(title) && !string.IsNullOrEmpty(clientName))
-                {
-                    Book book = new Book(title);
-                    Lending lending = new Lending(book, clientName, DateOnly.FromDateTime(DateTime.Now), DateOnly.FromDateTime(DateTime.Now).AddDays(14), LendingStatus.BookLent);
-                    _service.LendBook(lending);
-                    Console.WriteLine("\nBook lent successfully !");
-                }
-                else
-                {
-                    Console.WriteLine("Invalid input");
-                }
-            }
-            catch (Exception ex) { Console.WriteLine(ex.Message); }
-        }
-
-        private void ReturnBook()
-        {
-            try
-            {
-                Console.WriteLine("\nEnter Book Title : ");
-                var title = Console.ReadLine();
-                Console.WriteLine("\nEnter Client's Name : ");
-                var clientName = Console.ReadLine();
-                if (!string.IsNullOrEmpty(title) && !string.IsNullOrEmpty(clientName))
-                {
-                    Book book = new Book(title);
-                    Lending lending = new Lending(book, clientName);
-                    _service.ReturnBook(lending);
-                    Console.WriteLine("\nBook returned successfully !");
-                }
-                else
-                {
-                    Console.WriteLine("Invalid input");
-                }
-
-            }
-            catch (Exception ex) { Console.WriteLine(ex.Message); }
-        }
-
         public void Stop()
         {
             Environment.Exit(0);
@@ -342,16 +382,17 @@ namespace UI
         {
             Console.WriteLine("\nSelect an option:");
             Console.WriteLine("1. Show Books");
-            Console.WriteLine("2. Search book");
-            Console.WriteLine("3. Add book");
-            Console.WriteLine("4. Delete book");
-            Console.WriteLine("5. Update book");
-            Console.WriteLine("6. Add copies of book");
-            Console.WriteLine("7. Remove copies of book");
-            Console.WriteLine("8. Lend book");
-            Console.WriteLine("9. Return book");
-            Console.WriteLine("10. Books Recommendations");
-            Console.WriteLine("11. Exit\n");
+            Console.WriteLine("2. Search Book");
+            Console.WriteLine("3. Add Book");
+            Console.WriteLine("4. Delete Book");
+            Console.WriteLine("5. Update Book");
+            Console.WriteLine("6. Add Copies Of Book");
+            Console.WriteLine("7. Remove Copies Of Book");
+            Console.WriteLine("8. Search Loans");
+            Console.WriteLine("9. Lend Book");
+            Console.WriteLine("10. Return Book");
+            Console.WriteLine("11. Books Recommendations");
+            Console.WriteLine("12. Exit\n");
         }
     }
 }

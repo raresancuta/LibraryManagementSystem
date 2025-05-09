@@ -99,7 +99,7 @@ namespace Service
             var b = _bookRepository.FindByTitle(lending.Book.Title);
             if (b != null)
             {
-                var l = _lendingRepository.FindOneActiveByBookAndClient(b.Title,lending.ClientName);
+                var l = _lendingRepository.FindOneActiveByBookAndClient(b,lending.ClientName);
                 if (l != null)
                 {
                     _lendingRepository.SetBookReturned(l);
@@ -153,5 +153,21 @@ namespace Service
             }
             else throw new LibraryException("Book not found");
         }
+
+        public IEnumerable<Lending> GetActiveLendingsByBook(Book book)
+        {
+            var b = _bookRepository.FindByTitle(book.Title);
+            if (b != null)
+            {
+                return _lendingRepository.FindActiveByBookTitle(b);
+            }
+            else throw new LibraryException("Book not found");
+        }
+
+        public IEnumerable<Lending> GetActiveLendingsByClient(string clientName)
+        {
+            return _lendingRepository.FindActiveByClient(clientName);
+        }
+
     }
 }

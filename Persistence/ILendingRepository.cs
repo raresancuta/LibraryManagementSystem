@@ -9,9 +9,10 @@ namespace Persistence
 {
     public interface ILendingRepository:IRepository<Lending>
     {
-        IEnumerable<Lending> FindByBookTitle(string bookTitle);
+        IEnumerable<Lending> FindActiveByBookTitle(Book book);
         void SetBookReturned(Lending lending);
-        Lending? FindOneActiveByBookAndClient(string title, string clientName);
+        Lending? FindOneActiveByBookAndClient(Book book, string clientName);
+        IEnumerable<Lending> FindActiveByClient(string clientName);
 
     }
 }

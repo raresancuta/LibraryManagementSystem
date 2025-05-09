@@ -36,7 +36,7 @@ namespace Model
 
         public override string ToString()
         {
-            return "Book { ID=" + Id + "; Title=" + Title + "; Author=" + Author + "; ISBN=" + ISBN + "; Available Copies=" + NoOfAvailableCopies+ "; Quantity=" + Quantity + " }";
+            return "Book { Title = " + Title + "; Author = " + Author + "; ISBN = " + ISBN + "; Available Copies = " + NoOfAvailableCopies+ "; Quantity = " + Quantity + " }";
         }
     }
 }

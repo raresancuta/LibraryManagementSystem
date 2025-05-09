@@ -43,5 +43,8 @@ namespace Model
             ClientName = clientName;
         }
 
+        public override string ToString() {
+            return "Lending { Book Title = " + Book.Title + "; Client Name = " + ClientName + "; Lending Period = " + LendingPeriodStart + " - " + LendingPeriodEnd + "; Lending Status = " + LendingStatus + " }";
+        }
     }
 }

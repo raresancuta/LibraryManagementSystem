@@ -24,15 +24,15 @@ namespace Persistence.Database
             return _context.Lendings.ToList();
         }
 
-        public Lending? FindOneActiveByBookAndClient(string title, string clientName)
+        public Lending? FindOneActiveByBookAndClient(Book book, string clientName)
         {
-            return _context.Lendings.FirstOrDefault(l => l.Book.Title.Equals(title) && l.ClientName.Equals(clientName) && l.LendingStatus==LendingStatus.BookLent);
+            return _context.Lendings.FirstOrDefault(l => l.Book.Title.Equals(book.Title) && l.ClientName.Equals(clientName) && l.LendingStatus == LendingStatus.Active);
         }
 
-        public IEnumerable<Lending> FindByBookTitle(string bookTitle)
+        public IEnumerable<Lending> FindActiveByBookTitle(Book book)
         {
             
-            var query = _context.Lendings.AsQueryable().Where(l=> l.Book.Title == bookTitle);
+            var query = _context.Lendings.AsQueryable().Where(l=> l.Book.Title == book.Title && l.LendingStatus == LendingStatus.Active);
             return query.ToList();
         }
 
@@ -54,13 +54,13 @@ namespace Persistence.Database
             
             if (lending != null)
             {
-                if (lending.LendingStatus == LendingStatus.BookReturned)
+                if (lending.LendingStatus == LendingStatus.Finished)
                 {
                     throw new LibraryException("Book already returned");
                 }
                 else
                 {
-                    lending.LendingStatus = LendingStatus.BookReturned;
+                    lending.LendingStatus = LendingStatus.Finished;
                     _context.SaveChanges();
                 }
             }
@@ -69,6 +69,11 @@ namespace Persistence.Database
         public void Update(Lending entity)
         {
             throw new NotImplementedException();
+        }
+
+        public IEnumerable<Lending> FindActiveByClient(string clientName)
+        {
+            return _context.Lendings.AsQueryable().Where(l => l.ClientName.Equals(clientName) && l.LendingStatus == LendingStatus.Active).ToList();
         }
     }
 }

@@ -8,6 +8,6 @@ namespace Model
 {
     public enum LendingStatus
     {
-        BookLent,BookReturned   
+        Active,Finished   
     }
 }
