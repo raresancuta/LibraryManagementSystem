@@ -84,6 +84,8 @@ This feature provides data-driven suggestions to assist with library collection 
 This application was developed using **Visual Studio 2022**.  
 It is recommended to use Visual Studio 2022 or later for full compatibility with C#, .NET, and ML.NET tooling.
 
+Before running the application, make sure the following NuGet packages are installed in the appropriate projects:
+
 ### NuGet Packages
 
 #### MachineLearning Project
