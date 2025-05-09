@@ -1,0 +1,17 @@
+﻿using Model;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Persistence
+{
+    public interface ILendingRepository:IRepository<Lending>
+    {
+        IEnumerable<Lending> FindByBookTitle(string bookTitle);
+        void SetBookReturned(Lending lending);
+        Lending? FindOneActiveByBookAndClient(string title, string clientName);
+
+    }
+}
