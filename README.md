@@ -62,7 +62,7 @@ Each model is managed via **EF Core**, and migrations are used to set up the dat
   - **Lending period**
   - **Lending status**
 
-### 4. Recommendations & Predictions (The Innovative Functionality)
+### 4. Books Recommendations & Lendings Predictions (The Innovative Functionality)
 
 This feature provides data-driven suggestions to assist with library collection planning and enhance user engagement.
 
@@ -126,10 +126,11 @@ After starting the application, the following menu is displayed:
     5. Update Book
     6. Add Copies of Book
     7. Remove Copies of Book
-    8. Lend Book
-    9. Return Book
-    10. Book Recommendations
-    11. Exit
+    8. Search Loans
+    9. Lend Book
+    10. Return Book
+    11. Book Recommendations
+    12. Exit
 
 When choosing option 2 (Search Book), the user can search by:
 
@@ -138,8 +139,15 @@ When choosing option 2 (Search Book), the user can search by:
     1. Title
     2. Author
     3. ISBN
+    
+If choosing option 8 (Search Loans), the user can search by:
 
-Option 10 displays various book recommendation features:
+    Show Loans:
+    -----------
+    1. Get Active Loans By Book Title
+    2. Get Active Loans By Client Name
+    
+Option 11 displays various book recommendation features:
 
     Show Book Recommendations:
     --------------------------
